@@ -2,8 +2,10 @@ extends Node # instancia a classe Node2D
 
 var status = 1
 var vscore = 0
-var x = 1.5 
-var y = 1.5 
+#var x = 1.5 
+#var y = 1.5 
+var x = 5
+var y = 1.5
 
 # executa essa função ao carregar o jogo
 func _ready():
@@ -33,7 +35,7 @@ func _process(delta):
 		# se bateu no fundo, não desce mais e termina o jogo
 		if $dragon.position.y > 480:
 			$dragon.position.y = 480
-			status = 0 # muda o status para "parado"
+			#status = 0 # muda o status para "parado"
 
 		# se bateu no teto, não sobe mais
 		if $dragon.position.y < -20:
@@ -41,11 +43,13 @@ func _process(delta):
 			
 		# se apertou seta para baixo, aumenta o valor de y (posição vertical) do dragão
 		if Input.is_action_pressed("ui_down"):
-			$dragon.position.y += 2
+			#$dragon.position.y += 2
+			$dragon.position.y += 5
 
 		# se apertou seta para cima, diminui o valor de y (posição vertical) do dragão
 		if Input.is_action_pressed("ui_up"):
-			$dragon.position.y -= 4
+			#$dragon.position.y -= 4
+			$dragon.position.y -= 10
 			
 	elif status == 0: # parado
 		
@@ -66,12 +70,12 @@ func _process(delta):
 
 # executa essa função quando o dragão bate na coluna
 func _on_columns_body_shape_entered(body_id, body, body_shape, local_shape):
-	if (local_shape < 2): # esse node tem 3 shapes de colisão: 0 e 1 são as colunas
+	if (local_shape < 0): # esse node tem 3 shapes de colisão: 0 e 1 são as colunas
 		status = 0 # muda o status para "parado"
 
 # executa essa função quando o dragão atravessa entre as colunas
 func _on_columns_body_shape_exited(body_id, body, body_shape, local_shape):
-	if (local_shape == 2): # esse node tem 3 shapes de colisão: 0 e 1 são as colunas
+	if (local_shape <= 2): # esse node tem 3 shapes de colisão: 0 e 1 são as colunas
 		vscore += 1 # aumenta o score
 		$score.set_text(str(vscore)) # atualiza o painel
 		
